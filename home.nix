@@ -314,12 +314,12 @@ in
       directory = {
         truncation_length = 3;
         truncate_to_repo = true;
-        style = "bold #448BD2";  # Sky blue from wallpaper
+        style = "bold #7aa2f7";  # Tokyo Night blue
       };
 
       git_branch = {
         symbol = " ";
-        style = "bold #B75DA7";  # Lavender from wallpaper
+        style = "bold #bb9af7";  # Tokyo Night purple
       };
 
       git_status = {
@@ -338,18 +338,18 @@ in
       php = {
         symbol = " ";
         format = "via [$symbol($version )]($style)";
-        style = "bold #AE304E";  # Rose pink from wallpaper
+        style = "bold #f7768e";  # Tokyo Night red
       };
 
       nodejs = {
         symbol = " ";
         format = "via [$symbol($version )]($style)";
-        style = "bold #3C3DB0";  # Deep purple from wallpaper
+        style = "bold #9ece6a";  # Tokyo Night green
       };
 
       character = {
-        success_symbol = "[➜](bold #448BD2)";  # Sky blue from wallpaper
-        error_symbol = "[➜](bold #AE304E)";    # Rose pink from wallpaper
+        success_symbol = "[➜](bold #7aa2f7)";  # Tokyo Night blue
+        error_symbol = "[➜](bold #f7768e)";    # Tokyo Night red
       };
     };
   };
@@ -382,10 +382,10 @@ in
       bind -n M-Up select-pane -U
       bind -n M-Down select-pane -D
 
-      # Status bar - Colors from wallpaper
-      set -g status-style 'bg=#1A035B fg=#C7A6CF'  # Dark purple bg, light purple text
-      set -g status-left '#[bg=#448BD2,fg=#1A035B,bold] #S '  # Sky blue bg, dark purple text
-      set -g status-right '#[bg=#5D0C37,fg=#C7A6CF] %Y-%m-%d %H:%M '  # Deep rose bg, light purple text
+      # Status bar - Tokyo Night colors
+      set -g status-style 'bg=#1a1b26 fg=#c0caf5'  # Tokyo Night background, foreground
+      set -g status-left '#[bg=#7aa2f7,fg=#1a1b26,bold] #S '  # Tokyo Night blue bg, dark text
+      set -g status-right '#[bg=#bb9af7,fg=#1a1b26] %Y-%m-%d %H:%M '  # Tokyo Night purple bg, dark text
     '';
   };
 
@@ -620,8 +620,8 @@ in
       }
 
       window#waybar {
-        background-color: rgba(26, 3, 91, 0.95);  /* Dark purple from wallpaper */
-        color: #C7A6CF;  /* Light purple from wallpaper */
+        background-color: rgba(26, 27, 38, 0.95);  /* Tokyo Night background */
+        color: #c0caf5;  /* Tokyo Night text */
         transition-property: background-color;
         transition-duration: 0.5s;
       }
@@ -630,40 +630,40 @@ in
       #workspaces button {
         padding: 0 8px;
         background-color: transparent;
-        color: #C7A6CF;  /* Light purple from wallpaper */
+        color: #c0caf5;  /* Tokyo Night text */
         border-radius: 8px;
         margin: 2px 2px;
         transition: all 0.3s ease;
       }
 
       #workspaces button:hover {
-        background-color: rgba(68, 139, 210, 0.3);  /* Sky blue from wallpaper */
-        color: #448BD2;
+        background-color: rgba(122, 162, 247, 0.3);  /* Tokyo Night blue */
+        color: #7aa2f7;
       }
 
       #workspaces button.active {
-        background-color: #448BD2;  /* Sky blue from wallpaper */
-        color: #1A035B;  /* Dark purple from wallpaper */
+        background-color: #7aa2f7;  /* Tokyo Night blue */
+        color: #1a1b26;  /* Tokyo Night background */
         font-weight: bold;
       }
 
       #workspaces button.urgent {
-        background-color: #AE304E;  /* Rose pink from wallpaper */
-        color: #C7A6CF;
+        background-color: #f7768e;  /* Tokyo Night red */
+        color: #c0caf5;
       }
 
       /* Window Title */
       #window {
         padding: 0 10px;
-        color: #448BD2;  /* Sky blue from wallpaper */
+        color: #7aa2f7;  /* Tokyo Night blue */
         font-weight: bold;
       }
 
       /* Clock */
       #clock {
         padding: 0 12px;
-        background-color: #B75DA7;  /* Lavender from wallpaper */
-        color: #1A035B;  /* Dark purple from wallpaper */
+        background-color: #bb9af7;  /* Tokyo Night purple */
+        color: #1a1b26;  /* Tokyo Night background */
         border-radius: 8px;
         font-weight: bold;
         margin: 2px 4px;
@@ -689,82 +689,82 @@ in
 
       /* CPU */
       #cpu {
-        background-color: #3C3DB0;  /* Deep purple from wallpaper */
-        color: #C7A6CF;
+        background-color: #1a1b26;  /* Tokyo Night background */
+        color: #9ece6a;  /* Tokyo Night green */
       }
 
       /* Memory */
       #memory {
-        background-color: #448BD2;  /* Sky blue from wallpaper */
-        color: #1A035B;
+        background-color: #ff9e64;  /* Tokyo Night orange */
+        color: #1a1b26;  /* Tokyo Night background */
       }
 
       /* Disk */
       #disk {
-        background-color: #B75DA7;  /* Lavender from wallpaper */
-        color: #1A035B;
+        background-color: #bb9af7;  /* Tokyo Night purple */
+        color: #1a1b26;  /* Tokyo Night background */
       }
 
       /* Temperature */
       #temperature {
-        background-color: #AE304E;  /* Rose pink from wallpaper */
-        color: #C7A6CF;
+        background-color: #f7768e;  /* Tokyo Night red */
+        color: #c0caf5;  /* Tokyo Night foreground */
       }
 
       #temperature.critical {
-        background-color: #AE304E;  /* Rose pink from wallpaper */
-        color: #C7A6CF;
+        background-color: #f7768e;  /* Tokyo Night red */
+        color: #c0caf5;  /* Tokyo Night foreground */
         animation: blink 1s ease infinite;
       }
 
       /* Network */
       #network {
-        background-color: #448BD2;  /* Sky blue from wallpaper */
-        color: #1A035B;
+        background-color: #7aa2f7;  /* Tokyo Night blue */
+        color: #1a1b26;  /* Tokyo Night background */
       }
 
       #network.disconnected {
-        background-color: #AE304E;  /* Rose pink from wallpaper */
-        color: #C7A6CF;
+        background-color: #f7768e;  /* Tokyo Night red */
+        color: #c0caf5;  /* Tokyo Night foreground */
       }
 
       /* Audio */
       #pulseaudio {
-        background-color: #B75DA7;  /* Lavender from wallpaper */
-        color: #1A035B;
+        background-color: #bb9af7;  /* Tokyo Night purple */
+        color: #1a1b26;  /* Tokyo Night background */
       }
 
       #pulseaudio.muted {
-        background-color: #5D0C37;  /* Deep rose from wallpaper */
-        color: #C7A6CF;
+        background-color: #414868;  /* Tokyo Night muted */
+        color: #c0caf5;  /* Tokyo Night foreground */
       }
 
       /* Battery */
       #battery {
-        background-color: #3C3DB0;  /* Deep purple from wallpaper */
-        color: #C7A6CF;
+        background-color: #9ece6a;  /* Tokyo Night green */
+        color: #1a1b26;  /* Tokyo Night background */
       }
 
       #battery.charging {
-        background-color: #448BD2;  /* Sky blue from wallpaper */
-        color: #1A035B;
+        background-color: #7aa2f7;  /* Tokyo Night blue */
+        color: #1a1b26;  /* Tokyo Night background */
       }
 
       #battery.warning:not(.charging) {
-        background-color: #AE304E;  /* Rose pink from wallpaper */
-        color: #C7A6CF;
+        background-color: #ff9e64;  /* Tokyo Night orange */
+        color: #1a1b26;  /* Tokyo Night background */
       }
 
       #battery.critical:not(.charging) {
-        background-color: #AE304E;  /* Rose pink from wallpaper */
-        color: #C7A6CF;
+        background-color: #f7768e;  /* Tokyo Night red */
+        color: #c0caf5;  /* Tokyo Night foreground */
         animation: blink 1s ease infinite;
       }
 
       /* Notification Center */
       #custom-notification {
-        background-color: #B75DA7;  /* Lavender from wallpaper */
-        color: #1A035B;
+        background-color: #bb9af7;  /* Tokyo Night purple */
+        color: #1a1b26;  /* Tokyo Night background */
         font-size: 15px;
       }
 
@@ -809,14 +809,14 @@ in
 
       /* Tooltips */
       tooltip {
-        background-color: #1A035B;  /* Dark purple from wallpaper */
-        border: 2px solid #448BD2;  /* Sky blue from wallpaper */
+        background-color: #1a1b26;  /* Tokyo Night background */
+        border: 2px solid #7aa2f7;  /* Tokyo Night blue */
         border-radius: 8px;
-        color: #C7A6CF;  /* Light purple from wallpaper */
+        color: #c0caf5;  /* Tokyo Night foreground */
       }
 
       tooltip label {
-        color: #C7A6CF;  /* Light purple from wallpaper */
+        color: #c0caf5;  /* Tokyo Night foreground */
       }
     '';
   };
@@ -923,17 +923,17 @@ in
               flavour = "mocha",
               custom_highlights = function(colors)
                 return {
-                  -- Custom colors from wallpaper
-                  Normal = { bg = "#1A035B", fg = "#C7A6CF" },  -- Dark purple bg, light purple text
-                  NormalFloat = { bg = "#5D0C37", fg = "#C7A6CF" },  -- Deep rose bg
-                  FloatBorder = { fg = "#448BD2" },  -- Sky blue border
-                  CursorLine = { bg = "#3C3DB0" },  -- Deep purple highlight
-                  Visual = { bg = "#AE304E" },  -- Rose pink selection
-                  Search = { bg = "#B75DA7", fg = "#1A035B" },  -- Lavender search
-                  IncSearch = { bg = "#448BD2", fg = "#1A035B" },  -- Sky blue incremental search
-                  StatusLine = { bg = "#5D0C37", fg = "#C7A6CF" },  -- Deep rose status
-                  TabLine = { bg = "#3C3DB0", fg = "#C7A6CF" },  -- Deep purple tabs
-                  TabLineSel = { bg = "#448BD2", fg = "#1A035B" },  -- Sky blue active tab
+                  -- Tokyo Night theme colors
+                  Normal = { bg = "#1a1b26", fg = "#c0caf5" },  -- Tokyo Night background, foreground
+                  NormalFloat = { bg = "#24283b", fg = "#c0caf5" },  -- Darker background for floats
+                  FloatBorder = { fg = "#7aa2f7" },  -- Tokyo Night blue border
+                  CursorLine = { bg = "#24283b" },  -- Subtle highlight
+                  Visual = { bg = "#33467c" },  -- Blue selection
+                  Search = { bg = "#ff9e64", fg = "#1a1b26" },  -- Orange search highlight
+                  IncSearch = { bg = "#7aa2f7", fg = "#1a1b26" },  -- Blue incremental search
+                  StatusLine = { bg = "#24283b", fg = "#c0caf5" },  -- Status line
+                  TabLine = { bg = "#1f2335", fg = "#9aa5ce" },  -- Tab line
+                  TabLineSel = { bg = "#7aa2f7", fg = "#1a1b26" },  -- Active tab
                 }
               end,
               integrations = {
@@ -1433,8 +1433,8 @@ systemd.user.services.xdg-desktop-portal-hyprland = {
         gaps_in = 5;
         gaps_out = 10;
         border_size = 3;
-        "col.active_border" = "rgb(448BD2)";  # Sky blue from wallpaper
-        "col.inactive_border" = "rgb(5D0C37)"; # Deep rose from wallpaper
+        "col.active_border" = "rgb(7aa2f7)";  # Tokyo Night bright blue
+        "col.inactive_border" = "rgb(565f89)"; # Tokyo Night muted blue
         layout = "dwindle";
       };
 
@@ -1447,7 +1447,7 @@ systemd.user.services.xdg-desktop-portal-hyprland = {
         hyprexpo = {
           columns = 3;
           gap_size = 5;
-          bg_col = "rgb(1A035B)";  # Dark purple from wallpaper
+          bg_col = "rgb(1a1b26)";  # Tokyo Night background
           workspace_method = "center current";
 
           enable_gesture = true;
