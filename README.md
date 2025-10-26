@@ -5,6 +5,9 @@ A modern, declarative, and reproducible Hyprland desktop environment setup using
 ![Hyprland](https://img.shields.io/badge/Hyprland-Dynamic%20Tiling-blue?style=flat-square&logo=wayland)
 ![Nix](https://img.shields.io/badge/Nix-Declarative-informational?style=flat-square&logo=nixos)
 ![Home Manager](https://img.shields.io/badge/Home%20Manager-Dotfiles-orange?style=flat-square)
+![Tokyo Night](https://img.shields.io/badge/Theme-Tokyo%20Night-7aa2f7?style=flat-square&logo=atom)
+
+> **🆕 Latest Update**: Complete Tokyo Night theme integration across all components! Every UI element now uses a consistent, professional dark theme with beautiful blue/purple accents.
 
 ## ✨ Features
 
@@ -16,18 +19,18 @@ A modern, declarative, and reproducible Hyprland desktop environment setup using
 
 ### 🎨 **Beautiful Desktop Environment**
 - **Hyprland**: Dynamic tiling Wayland compositor with animations
-- **Custom Theme**: Automatically generated from wallpaper colors (purple/pink/blue palette)
-- **Waybar**: Highly customized status bar with system monitoring
+- **Tokyo Night Theme**: Cohesive dark theme with professional blue/purple accent colors
+- **Waybar**: Highly customized status bar with system monitoring and Tokyo Night styling
 - **Wofi**: Application launcher matching the theme
 - **Hyprpaper**: Wallpaper manager with multi-monitor support
 
 ### 🛠️ **Development Environment**
-- **Neovim**: Fully configured with LSP, Treesitter, and custom theme
+- **Neovim**: Fully configured with LSP, Treesitter, and Tokyo Night theme integration
 - **PHP Development**: Laravel-ready with Artisan shortcuts and PHP 8.3
 - **Node.js**: Latest LTS with npm shortcuts
 - **Database Support**: MySQL, PostgreSQL, Redis, SQLite
 - **Git Integration**: Configured with aliases and LazyGit
-- **Terminal**: Alacritty with Zsh, Starship prompt, and modern CLI tools
+- **Terminal**: Alacritty with Zsh, Starship prompt styled with Tokyo Night colors
 
 ### 📋 **Productivity Tools**
 - **Clipboard Manager**: Clipman with `Super+V` history access
@@ -195,16 +198,29 @@ home-manager switch --flake ~/.config/home-manager
 ## 🎨 Customization
 
 ### Theme Colors
-The theme automatically extracts colors from your wallpaper (`bg.jpg`). To use a different wallpaper:
+The setup uses a beautiful **Tokyo Night** theme with consistent colors across all components:
+
+- **Background**: `#1a1b26` (Dark navy)
+- **Foreground**: `#c0caf5` (Light blue-white) 
+- **Blue**: `#7aa2f7` (Primary accent)
+- **Purple**: `#bb9af7` (Secondary accent)
+- **Green**: `#9ece6a` (Success indicators)
+- **Orange**: `#ff9e64` (Warnings)
+- **Red**: `#f7768e` (Errors/critical states)
+
+### Wallpaper Setup
+To use your own wallpaper:
 
 1. Replace `~/.config/home-manager/bg.jpg` with your image
 2. Run `home-manager switch --flake ~/.config/home-manager`
 
 ### Manual Color Customization
-Edit the color variables in `home.nix`:
-- Hyprland borders: Search for `col.active_border`
-- Waybar colors: Look for the waybar `style` section
-- Terminal colors: Starship configuration section
+The Tokyo Night theme is consistent across all components. To customize colors, edit `home.nix`:
+- **Hyprland borders**: Search for `col.active_border` and `col.inactive_border`
+- **Waybar styling**: Look for the waybar `style` section with CSS colors
+- **Starship prompt**: Find the starship configuration section
+- **Tmux status bar**: Located in the tmux `extraConfig` section
+- **Neovim theme**: Custom highlights in the catppuccin setup
 
 ### Adding Applications
 Add packages to the `home.packages` list in `home.nix`:
@@ -384,12 +400,36 @@ sudo groupdel nixbld 2>/dev/null || true
 
 This configuration is open source and available under the [MIT License](LICENSE).
 
+## 🌃 Tokyo Night Theme Integration
+
+This configuration features a complete **Tokyo Night** theme integration across all components:
+
+### **Consistent Color Palette**
+- All UI elements use the same color scheme for a cohesive look
+- Professional dark theme optimized for extended coding sessions
+- Carefully chosen accent colors that work well in both dark and light conditions
+
+### **Themed Components**
+- ✅ **Hyprland**: Window borders, workspace indicators, backgrounds
+- ✅ **Waybar**: Status bar modules, tooltips, notifications
+- ✅ **Starship**: Terminal prompt with syntax-highlighted elements  
+- ✅ **Tmux**: Status bar and window indicators
+- ✅ **Neovim**: Editor theme with custom highlight groups
+- ✅ **Terminal**: Color scheme integration throughout
+
+### **Theme Benefits**
+- **Eye Strain Reduction**: Carefully balanced contrast ratios
+- **Professional Appearance**: Clean, modern aesthetic suitable for work
+- **Excellent Readability**: High contrast text with subtle accent colors
+- **Battery Friendly**: Dark theme reduces power consumption on OLED displays
+
 ## 🙏 Acknowledgments
 
 - [Hyprland](https://hyprland.org/) - Amazing Wayland compositor
 - [Nix](https://nixos.org/) - Declarative package management
 - [Home Manager](https://github.com/nix-community/home-manager) - User environment management
-- [Catppuccin](https://catppuccin.com/) - Beautiful color schemes
+- [Tokyo Night Theme](https://github.com/enkia/tokyo-night-vscode-theme) - Beautiful dark color scheme
+- [Catppuccin](https://catppuccin.com/) - Base for Neovim configuration
 - Community configurations and dotfiles for inspiration
 
 ---
