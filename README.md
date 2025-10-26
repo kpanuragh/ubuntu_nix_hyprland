@@ -8,6 +8,12 @@ A modern, declarative, and reproducible Hyprland desktop environment setup using
 
 ## ✨ Features
 
+### 🖥️ **Complete Display Manager Integration**
+- **GDM Ready**: Full GNOME Display Manager integration out of the box
+- **Professional Login**: Clean session selection and user switching
+- **Multi-User Support**: Each user gets their own Hyprland configuration
+- **Universal Compatibility**: Works with any XDG-compliant display manager
+
 ### 🎨 **Beautiful Desktop Environment**
 - **Hyprland**: Dynamic tiling Wayland compositor with animations
 - **Custom Theme**: Automatically generated from wallpaper colors (purple/pink/blue palette)
@@ -101,26 +107,25 @@ cp /path/to/your/wallpaper.jpg ~/.config/home-manager/bg.jpg
 home-manager switch --flake ~/.config/home-manager
 ```
 
-### Step 7: Setup Hyprland Desktop Entry
-
-Create the desktop entry for your display manager:
+### Step 7: Enable GDM Display Manager
 
 ```bash
-# Create desktop entry (adjust path if needed)
-sudo tee /usr/share/wayland-sessions/hyprland.desktop << EOF
-[Desktop Entry]
-Name=Hyprland
-Comment=An intelligent dynamic tiling Wayland compositor
-Exec=$HOME/.nix-profile/bin/Hyprland
-Type=Application
-EOF
+# Install and configure GDM (if not already installed)
+sudo apt install -y gdm3
+sudo systemctl set-default graphical.target
+
+# The Hyprland desktop entry is automatically created by the configuration
 ```
 
-### Step 8: Logout and Login
+### Step 8: Logout and Login to GDM
 
-1. Logout of your current session
-2. Select "Hyprland" from your display manager
-3. Login to your new Hyprland environment!
+1. **Reboot your system** to start GDM
+   ```bash
+   sudo reboot
+   ```
+2. **At the GDM login screen**, click the gear icon in the bottom right
+3. **Select "Hyprland (Nix)"** from the session list  
+4. **Login** to your new Hyprland environment!
 
 ## 🔄 Updates and Maintenance
 
@@ -231,7 +236,28 @@ Pre-configured aliases and tools:
 - `mfs` - migrate:fresh --seed
 - `tinker` - php artisan tinker
 
-## 🔧 Troubleshooting
+## �️ Display Manager Integration
+
+### **GDM Integration (Default)**
+This setup includes full GDM (GNOME Display Manager) support:
+
+✅ **Automatic Session**: "Hyprland (Nix)" appears in GDM session selector  
+✅ **Proper Environment**: Correctly sources Nix environment and paths  
+✅ **Wayland Optimized**: Enhanced variables for modern app compatibility  
+✅ **Clean Integration**: Professional login/logout experience  
+
+### **Using the Display Manager**
+1. **Login Screen**: Select "Hyprland (Nix)" from the gear menu in GDM
+2. **Session Management**: Logout returns you to GDM for user switching
+3. **Multi-User**: Each user can have their own Hyprland configuration
+
+### **Alternative Display Managers**
+The configuration also works with SDDM, LightDM, or any display manager:
+- Desktop entry created at `/usr/share/wayland-sessions/hyprland-nix.desktop`
+- Custom start script ensures proper Nix environment loading
+- Compatible with any XDG-compliant display manager
+
+## �🔧 Troubleshooting
 
 ### Icons Not Showing in Waybar
 ```bash
@@ -274,6 +300,15 @@ rm -rf ~/.config/home-manager
 
 # Reset Home Manager (optional)
 home-manager expire-generations 0
+```
+
+### Remove Display Manager Integration (Optional)
+```bash
+# Remove Hyprland desktop entry
+sudo rm /usr/share/wayland-sessions/hyprland-nix.desktop
+
+# If you want to disable GDM and return to default display manager
+sudo systemctl set-default multi-user.target  # or graphical.target with different DM
 ```
 
 ### Uninstall Nix (Complete removal)
