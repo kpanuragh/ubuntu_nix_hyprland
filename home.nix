@@ -122,6 +122,9 @@ in
       # Image processing tools
       imagemagick
 
+      # Display Manager (optional - can be used instead of system DM)
+      # sddm
+
       # Code Quality Tools
       php83Packages.phpstan    # PHP Static Analysis
       php83Packages.php-cs-fixer # PHP Code Style Fixer
@@ -1273,6 +1276,18 @@ in
     GTK_USE_PORTAL = "1";
     # Ensure Nix portals are found first
     XDG_DATA_DIRS = "$HOME/.nix-profile/share:/nix/var/nix/profiles/default/share:/usr/local/share:/usr/share";
+    
+    # Enhanced Wayland & GDM integration
+    NIXOS_OZONE_WL = "1";  # Enable Wayland for Electron apps
+    MOZ_ENABLE_WAYLAND = "1";  # Enable Wayland for Firefox
+    QT_QPA_PLATFORM = "wayland;xcb";  # Qt apps prefer Wayland
+    GDK_BACKEND = "wayland,x11";  # GTK apps prefer Wayland
+    SDL_VIDEODRIVER = "wayland";  # SDL apps use Wayland
+    CLUTTER_BACKEND = "wayland";  # Clutter apps use Wayland
+    XDG_SESSION_TYPE = "wayland";
+    XDG_CURRENT_DESKTOP = "Hyprland";
+    GDK_SCALE = "1";
+    GDK_DPI_SCALE = "1";
   };
 
   xdg.configFile."environment.d/envvars.conf".text = ''
@@ -1561,8 +1576,8 @@ systemd.user.services.xdg-desktop-portal-hyprland = {
 
         # --- Plugin Keybindings ---
 
-        # hyprexpo - Workspace overview (SUPER+TAB to toggle)
-        "SUPER, TAB, hyprexpo:expo, toggle"
+        # hyprexpo - Workspace overview (SUPER+TAB to toggle) 
+        "SUPER, TAB, exec, hyprctl dispatch hyprexpo:expo toggle"
 
         # --- Mouse Bindings (for resize/move floating windows) ---
         #"SUPER, mouse:272, movethiswindow"      # Left Click: Move window
@@ -1645,4 +1660,46 @@ systemd.user.services.xdg-desktop-portal-hyprland = {
 # workspace=9,monitor:eDP-1
 # workspace=10,monitor:eDP-1
 # '';
+
+  # --- GDM & Display Manager Integration ---
+  
+  # Create a better desktop entry for Hyprland
+  home.file.".local/share/applications/hyprland.desktop" = {
+    text = ''
+      [Desktop Entry]
+      Name=Hyprland (Nix)
+      GenericName=Wayland Compositor
+      Comment=An intelligent dynamic tiling Wayland compositor
+      Exec=${config.home.homeDirectory}/.nix-profile/bin/Hyprland
+      Icon=hyprland
+      Terminal=false
+      Type=Application
+      Categories=System;
+      StartupNotify=false
+      Keywords=tiling;wm;windowmanager;wayland;
+    '';
+  };
+
+
+
+  # Create a script for starting Hyprland properly from display managers
+  home.file.".local/bin/start-hyprland" = {
+    text = ''
+      #!/bin/bash
+      
+      # Source Nix profile
+      if [ -f "$HOME/.nix-profile/etc/profile.d/nix.sh" ]; then
+        source "$HOME/.nix-profile/etc/profile.d/nix.sh"
+      fi
+      
+      # Set up environment
+      export XDG_SESSION_TYPE=wayland
+      export XDG_SESSION_DESKTOP=Hyprland
+      export XDG_CURRENT_DESKTOP=Hyprland
+      
+      # Start Hyprland
+      exec "$HOME/.nix-profile/bin/Hyprland"
+    '';
+    executable = true;
+  };
 }
