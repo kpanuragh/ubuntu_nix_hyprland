@@ -107,14 +107,31 @@ cp /path/to/your/wallpaper.jpg ~/.config/home-manager/bg.jpg
 home-manager switch --flake ~/.config/home-manager
 ```
 
-### Step 7: Enable GDM Display Manager
+### Step 7: Setup GDM Session Entry
 
 ```bash
-# Install and configure GDM (if not already installed)
+# Create system-wide session entry for GDM
+sudo tee /usr/share/wayland-sessions/hyprland-nix.desktop << EOF
+[Desktop Entry]
+Name=Hyprland (Nix)
+GenericName=Wayland Compositor
+Comment=An intelligent dynamic tiling Wayland compositor (Nix-managed)
+Exec=$HOME/.local/bin/start-hyprland
+Icon=hyprland
+Terminal=false
+Type=Application
+Categories=System;
+StartupNotify=false
+Keywords=tiling;wm;windowmanager;wayland;nix;
+DesktopNames=Hyprland
+EOF
+
+# Enable GDM if not already enabled
 sudo apt install -y gdm3
 sudo systemctl set-default graphical.target
 
-# The Hyprland desktop entry is automatically created by the configuration
+# Restart GDM to detect the new session
+sudo systemctl restart gdm
 ```
 
 ### Step 8: Logout and Login to GDM
@@ -247,15 +264,26 @@ This setup includes full GDM (GNOME Display Manager) support:
 ✅ **Clean Integration**: Professional login/logout experience  
 
 ### **Using the Display Manager**
-1. **Login Screen**: Select "Hyprland (Nix)" from the gear menu in GDM
-2. **Session Management**: Logout returns you to GDM for user switching
-3. **Multi-User**: Each user can have their own Hyprland configuration
+1. **Login Screen**: Select "Hyprland (Nix)" from the session menu
+   - **GDM**: Click gear ⚙️ icon → Select session
+   - **LightDM**: Use session dropdown  
+   - **SDDM**: Click session button
+2. **Session Management**: Logout returns you to display manager for user switching
+3. **Multi-User**: Each user gets their own Hyprland configuration automatically
+4. **No Root Setup**: Desktop entries are created in user directories (`~/.local/share/`)
+
+### **GDM Session Setup**
+For GDM to detect the Hyprland session:
+- **System Entry Required**: GDM needs session in `/usr/share/wayland-sessions/`
+- **One-Time Setup**: Manual creation of system-wide session entry (requires sudo)
+- **Custom Start Script**: Ensures proper Nix environment loading
+- **Universal Access**: All users can select Hyprland session from GDM
 
 ### **Alternative Display Managers**
-The configuration also works with SDDM, LightDM, or any display manager:
-- Desktop entry created at `/usr/share/wayland-sessions/hyprland-nix.desktop`
-- Custom start script ensures proper Nix environment loading
-- Compatible with any XDG-compliant display manager
+Other display managers may work with different approaches:
+- **SDDM/LightDM**: May support user-level sessions in `~/.local/share/wayland-sessions/`
+- **Manual Setup**: Copy session file to system directory manually
+- **Direct Start**: Use `~/.local/bin/start-hyprland` from TTY
 
 ## �🔧 Troubleshooting
 
@@ -289,6 +317,28 @@ glxinfo | grep "OpenGL renderer"
 # Update monitor configuration in home.nix
 ```
 
+### Session Not Appearing in Display Manager
+```bash
+# Verify system session entry exists
+ls -la /usr/share/wayland-sessions/ | grep hypr
+
+# If missing, create it manually (from Step 7)
+sudo tee /usr/share/wayland-sessions/hyprland-nix.desktop << EOF
+[Desktop Entry]
+Name=Hyprland (Nix)
+Comment=An intelligent dynamic tiling Wayland compositor (Nix-managed)
+Exec=$HOME/.local/bin/start-hyprland
+Type=Application
+DesktopNames=Hyprland
+EOF
+
+# Restart display manager to detect new sessions
+sudo systemctl restart gdm
+
+# Alternative: Start directly from TTY
+~/.local/bin/start-hyprland
+```
+
 ## 🗑️ Uninstallation
 
 To completely remove the setup:
@@ -304,8 +354,8 @@ home-manager expire-generations 0
 
 ### Remove Display Manager Integration (Optional)
 ```bash
-# Remove Hyprland desktop entry
-sudo rm /usr/share/wayland-sessions/hyprland-nix.desktop
+# Remove user-level session entry (automatically removed when home-manager config is removed)
+rm -f ~/.local/share/wayland-sessions/hyprland-nix.desktop
 
 # If you want to disable GDM and return to default display manager
 sudo systemctl set-default multi-user.target  # or graphical.target with different DM

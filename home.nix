@@ -1663,22 +1663,25 @@ systemd.user.services.xdg-desktop-portal-hyprland = {
 
   # --- GDM & Display Manager Integration ---
   
-  # Create a better desktop entry for Hyprland
-  home.file.".local/share/applications/hyprland.desktop" = {
+  # Create system-wide session entry template for GDM
+  home.file.".local/share/hyprland-session.desktop" = {
     text = ''
       [Desktop Entry]
       Name=Hyprland (Nix)
       GenericName=Wayland Compositor
-      Comment=An intelligent dynamic tiling Wayland compositor
-      Exec=${config.home.homeDirectory}/.nix-profile/bin/Hyprland
+      Comment=An intelligent dynamic tiling Wayland compositor (Nix-managed)
+      Exec=${config.home.homeDirectory}/.local/bin/start-hyprland
       Icon=hyprland
       Terminal=false
       Type=Application
       Categories=System;
       StartupNotify=false
-      Keywords=tiling;wm;windowmanager;wayland;
+      Keywords=tiling;wm;windowmanager;wayland;nix;
+      DesktopNames=Hyprland
     '';
   };
+
+
 
 
 
