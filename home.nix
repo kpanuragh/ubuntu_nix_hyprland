@@ -31,6 +31,7 @@ in
     packages = with pkgs; [
       # Terminal, wrapped with nixGL for GPU acceleration
       (wrapGL alacritty)
+      (wrapGL remmina)
 
       # Hyprland Essentials (wrapped as they are graphical applications)
       (wrapGL hyprpaper) # Wallpaper utility
@@ -88,6 +89,7 @@ in
 
       # Version Control
       git                      # Git VCS
+      git-lfs
       gh                       # GitHub CLI
       lazygit                  # Terminal UI for git
 
@@ -129,6 +131,9 @@ in
       php83Packages.phpstan    # PHP Static Analysis
       php83Packages.php-cs-fixer # PHP Code Style Fixer
       nodePackages.eslint      # JavaScript linter
+
+      # Music
+      mpc-cli                  # Command-line MPD client
     ];
   };
 
@@ -840,6 +845,33 @@ in
     };
   };
 
+  # --- MPD Configuration ---
+  services.mpd = {
+    enable = true;
+    musicDirectory = "${config.home.homeDirectory}/Music";
+    network.listenAddress = "127.0.0.1";
+    network.port = 6600;
+    extraConfig = ''
+      # Audio Output
+      audio_output {
+        type "pipewire"
+        name "PipeWire Sound Server"
+      }
+
+      # Optional: FIFO output for visualization
+      audio_output {
+        type "fifo"
+        name "MPD FIFO"
+        path "/tmp/mpd.fifo"
+        format "44100:16:2"
+      }
+
+      # Additional settings
+      auto_update "yes"
+      restore_paused "yes"
+    '';
+  };
+
   # --- Neovim Configuration ---
   programs.neovim = {
     enable = true;
@@ -1369,6 +1401,29 @@ systemd.user.services.pipewire = {
   };
 };
 
+systemd.user.services.pipewire-pulse = {
+  Unit = {
+    Description = "PipeWire PulseAudio";
+    After = [ "pipewire.service" ];
+    Requires = [ "pipewire.service" ];
+    PartOf = [ "graphical-session.target" ];
+  };
+  Service = {
+    LockPersonality = true;
+    MemoryDenyWriteExecute = true;
+    NoNewPrivileges = true;
+    RestrictNamespaces = true;
+    SystemCallArchitectures = "native";
+    SystemCallFilter = "@system-service";
+    UMask = "0077";
+    ExecStart = "${pkgs.pipewire}/bin/pipewire-pulse";
+    Restart = "on-failure";
+  };
+  Install = {
+    WantedBy = [ "graphical-session.target" ];
+  };
+};
+
 systemd.user.services.wireplumber = {
   Unit = {
     Description = "WirePlumber Session Manager";
@@ -1689,20 +1744,34 @@ systemd.user.services.xdg-desktop-portal-hyprland = {
   home.file.".local/bin/start-hyprland" = {
     text = ''
       #!/bin/bash
-      
+
       # Source Nix profile
       if [ -f "$HOME/.nix-profile/etc/profile.d/nix.sh" ]; then
         source "$HOME/.nix-profile/etc/profile.d/nix.sh"
       fi
-      
+
       # Set up environment
       export XDG_SESSION_TYPE=wayland
       export XDG_SESSION_DESKTOP=Hyprland
       export XDG_CURRENT_DESKTOP=Hyprland
-      
+
       # Start Hyprland
       exec "$HOME/.nix-profile/bin/Hyprland"
     '';
     executable = true;
+  };
+
+  # Desktop entry for Discord (to make it visible in wofi)
+  home.file.".local/share/applications/discord.desktop" = {
+    text = ''
+      [Desktop Entry]
+      Name=Discord
+      Comment=All-in-one voice and text chat for gamers
+      Exec=${config.home.homeDirectory}/.nix-profile/bin/discord
+      Icon=discord
+      Type=Application
+      Categories=Network;InstantMessaging;
+      Keywords=chat;voice;
+    '';
   };
 }
