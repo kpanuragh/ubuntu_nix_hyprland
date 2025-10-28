@@ -132,8 +132,16 @@ in
       php83Packages.php-cs-fixer # PHP Code Style Fixer
       nodePackages.eslint      # JavaScript linter
 
-      # Music
+      # Music & Audio Visualization
+      mpd                      # Music Player Daemon
       mpc-cli                  # Command-line MPD client
+      mpdris2                  # MPRIS interface for MPD
+      cava                     # Console-based Audio Visualizer
+
+      # Wallpaper & Background Tools
+      nitrogen                 # Background browser and setter
+      feh                      # Image viewer and wallpaper setter
+      swaybg                   # Sway/Wayland background setter
     ];
   };
 
@@ -1306,8 +1314,6 @@ in
     TERMINAL = "alacritty";
     XDG_SESSION_DESKTOP = "Hyprland";
     GTK_USE_PORTAL = "1";
-    # Ensure Nix portals are found first
-    XDG_DATA_DIRS = "$HOME/.nix-profile/share:/nix/var/nix/profiles/default/share:/usr/local/share:/usr/share";
     
     # Enhanced Wayland & GDM integration
     NIXOS_OZONE_WL = "1";  # Enable Wayland for Electron apps
@@ -1320,6 +1326,8 @@ in
     XDG_CURRENT_DESKTOP = "Hyprland";
     GDK_SCALE = "1";
     GDK_DPI_SCALE = "1";
+    # Ensure applications from Nix are discoverable
+    XDG_DATA_DIRS = lib.mkForce "${config.home.homeDirectory}/.nix-profile/share:/nix/var/nix/profiles/default/share:/usr/local/share:/usr/share";
   };
 
   xdg.configFile."environment.d/envvars.conf".text = ''
@@ -1328,6 +1336,19 @@ in
     XDG_SESSION_TYPE=wayland
     XDG_CURRENT_DESKTOP=Hyprland
   '';
+
+  # XDG Configuration to ensure applications appear in launcher
+  xdg = {
+    enable = true;
+    # Ensure desktop entries are created for applications
+    mimeApps.enable = true;
+    # Make sure applications from Nix are available in XDG_DATA_DIRS
+    systemDirs.data = [ 
+      "${config.home.homeDirectory}/.nix-profile/share"
+      "/nix/var/nix/profiles/default/share"
+    ];
+  };
+
 xdg.portal = {
   enable = true;
   extraPortals = with pkgs; [
